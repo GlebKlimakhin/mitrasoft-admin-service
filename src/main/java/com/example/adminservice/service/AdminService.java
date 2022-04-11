@@ -19,6 +19,9 @@ public class AdminService {
 
     @Autowired
     private RestTemplate restTemplate;
+    
+    private String LOGIN_URI = "https://user-service-mitrasoft.herokuapp.com/api/v1/oauth/token";
+    private String USERS_URI = "https://user-service-mitrasoft.herokuapp.com/api/v1/users/";
 
 
     public TokenResponse getAuthToken(String username, String password) {
@@ -31,7 +34,7 @@ public class AdminService {
         map.add("scope", "read write");
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, headers);
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("myClientApp", "9999"));
-        ResponseEntity<TokenResponse> tokenResponse = restTemplate.postForEntity("http://localhost:8080/api/v1/oauth/token",
+        ResponseEntity<TokenResponse> tokenResponse = restTemplate.postForEntity(LOGIN_URI,
                             httpEntity,
                             TokenResponse.class
                 );
@@ -45,7 +48,7 @@ public class AdminService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + authorization);
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List> response = restTemplate.exchange("http://localhost:8080/api/v1/users/",
+        ResponseEntity<List> response = restTemplate.exchange(USERS_URI,
                 HttpMethod.GET,
                 httpEntity,
                 List.class);
