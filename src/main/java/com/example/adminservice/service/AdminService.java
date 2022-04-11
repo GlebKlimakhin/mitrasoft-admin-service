@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -20,14 +19,7 @@ public class AdminService {
 
     @Autowired
     private RestTemplate restTemplate;
-//
-//    @Autowired
-//    private BCryptPasswordEncoder encoder;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     public TokenResponse getAuthToken(String username, String password) {
         HttpHeaders headers = new HttpHeaders();
